@@ -1,4 +1,4 @@
-pub trait Node {
+pub trait Element {
     fn attribute(&self, identifier: &AttributeIdentifier) -> Option<Attribute>;
 }
 
@@ -34,4 +34,10 @@ impl<T: Into<String>> From<T> for AttributeIdentifier {
 }
 
 #[derive(Clone, Debug, PartialEq)]
-pub struct AttributeValue(String);
+pub struct AttributeValue(pub String);
+
+impl<T: Into<String>> From<T> for AttributeValue {
+    fn from(string_like: T) -> Self {
+        AttributeValue(string_like.into())
+    }
+}

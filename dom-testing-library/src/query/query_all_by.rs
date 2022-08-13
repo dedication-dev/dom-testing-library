@@ -1,13 +1,13 @@
-use crate::dom::node::Node;
+use crate::dom::element::Element;
 use crate::dom::queryable::Queryable;
 use crate::query::matcher::Matcher;
 
-pub trait QueryAllBy<TNode: Node> {
-    fn query_all_by<TMatcher: Matcher>(&self, matcher: &TMatcher) -> Vec<TNode>;
+pub trait QueryAllBy<TElement: Element> {
+    fn query_all_by<TMatcher: Matcher>(&self, matcher: &TMatcher) -> Vec<TElement>;
 }
 
-impl<TNode: Node, TQueryable: Queryable<TNode>> QueryAllBy<TNode> for TQueryable {
-    fn query_all_by<TMatcher: Matcher>(&self, matcher: &TMatcher) -> Vec<TNode> {
+impl<TElement: Element, TQueryable: Queryable<TElement>> QueryAllBy<TElement> for TQueryable {
+    fn query_all_by<TMatcher: Matcher>(&self, matcher: &TMatcher) -> Vec<TElement> {
         self.query_all(matcher.css_selectors())
             .into_iter()
             .filter(|it| matcher.matches(it))
@@ -22,52 +22,52 @@ mod tests {
     mod query_all_by {
         use super::*;
         use crate::dom::css_selector::CSSSelector;
-        use crate::dom::node::{Attribute, AttributeIdentifier, Node};
+        use crate::dom::element::{Attribute, AttributeIdentifier, Element};
         use crate::dom::queryable::MockQueryable;
         use crate::query::matcher::MockMatcher;
         use std::collections::HashMap;
 
         #[test]
-        fn with_query_all_without_nodes_returns_no_nodes() {
-            let nodes = vec![];
-            let queryable = non_filtering_queryable(&nodes);
+        fn with_query_all_without_elements_returns_no_elements() {
+            let elements = vec![];
+            let queryable = non_filtering_queryable(&elements);
 
-            let matching_nodes = queryable.query_all_by(&matching_matcher());
+            let matching_elements = queryable.query_all_by(&matching_matcher());
 
-            assert_eq!(matching_nodes, nodes);
+            assert_eq!(matching_elements, elements);
         }
 
         #[test]
-        fn returns_matching_nodes() {
-            let nodes = vec![FakeNode::default()];
-            let queryable = non_filtering_queryable(&nodes);
+        fn returns_matching_elements() {
+            let elements = vec![FakeElement::default()];
+            let queryable = non_filtering_queryable(&elements);
 
-            let matching_nodes = queryable.query_all_by(&matching_matcher());
+            let matching_elements = queryable.query_all_by(&matching_matcher());
 
-            assert_eq!(matching_nodes, nodes);
+            assert_eq!(matching_elements, elements);
         }
 
         #[test]
-        fn does_not_return_non_matching_nodes() {
+        fn does_not_return_non_matching_elements() {
             let other_attribute = Attribute::Valueless {
                 identifier: "attr1".into(),
             };
-            let node1 = FakeNode::new(AttributeMap::from(vec![other_attribute]));
+            let element1 = FakeElement::new(AttributeMap::from(vec![other_attribute]));
             let matching_attribute = Attribute::Valueless {
                 identifier: "attr2".into(),
             };
-            let node2 = FakeNode::new(AttributeMap::from(vec![matching_attribute.clone()]));
-            let queryable = non_filtering_queryable(&[node1, node2.clone()]);
+            let element2 = FakeElement::new(AttributeMap::from(vec![matching_attribute.clone()]));
+            let queryable = non_filtering_queryable(&[element1, element2.clone()]);
 
             let matcher = AttributeMatcher::new(matching_attribute);
-            let matching_nodes = queryable.query_all_by(&matcher);
+            let matching_elements = queryable.query_all_by(&matcher);
 
-            assert_eq!(matching_nodes, vec![node2]);
+            assert_eq!(matching_elements, vec![element2]);
         }
 
-        fn non_filtering_queryable(nodes: &[FakeNode]) -> MockQueryable<FakeNode> {
+        fn non_filtering_queryable(elements: &[FakeElement]) -> MockQueryable<FakeElement> {
             let mut queryable = MockQueryable::new();
-            queryable.expect_query_all().return_const(nodes.to_vec());
+            queryable.expect_query_all().return_const(elements.to_vec());
             queryable
         }
 
@@ -83,17 +83,17 @@ mod tests {
         }
 
         #[derive(Clone, Debug, Default, PartialEq)]
-        struct FakeNode {
+        struct FakeElement {
             attributes: AttributeMap,
         }
 
-        impl FakeNode {
+        impl FakeElement {
             fn new(attributes: AttributeMap) -> Self {
                 Self { attributes }
             }
         }
 
-        impl Node for FakeNode {
+        impl Element for FakeElement {
             fn attribute(&self, identifier: &AttributeIdentifier) -> Option<Attribute> {
                 self.attributes.0.get(identifier).cloned()
             }
@@ -121,8 +121,8 @@ mod tests {
                 vec![]
             }
 
-            fn matches(&self, node: &dyn Node) -> bool {
-                match node.attribute(self.attribute.identifier()) {
+            fn matches(&self, element: &dyn Element) -> bool {
+                match element.attribute(self.attribute.identifier()) {
                     None => false,
                     Some(attribute) => self.attribute == attribute,
                 }
