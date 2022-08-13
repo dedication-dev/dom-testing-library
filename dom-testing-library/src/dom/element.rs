@@ -16,6 +16,14 @@ pub enum Attribute {
 
 #[allow(dead_code)]
 impl Attribute {
+    pub fn valueless(identifier: AttributeIdentifier) -> Self {
+        Self::Valueless { identifier }
+    }
+
+    pub fn value(identifier: AttributeIdentifier, value: AttributeValue) -> Self {
+        Self::Value { identifier, value }
+    }
+
     pub fn identifier(&self) -> &AttributeIdentifier {
         match self {
             Attribute::Valueless { identifier } => identifier,
@@ -26,6 +34,12 @@ impl Attribute {
 
 #[derive(Clone, Debug, Hash, PartialEq, Eq)]
 pub struct AttributeIdentifier(pub String);
+
+impl AsRef<String> for AttributeIdentifier {
+    fn as_ref(&self) -> &String {
+        &self.0
+    }
+}
 
 impl<T: Into<String>> From<T> for AttributeIdentifier {
     fn from(string_like: T) -> Self {

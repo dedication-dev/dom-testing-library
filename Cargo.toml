@@ -1,4 +1,6 @@
 [workspace]
 members = [
     "dom-testing-library",
+    "web-sys-testing-library",
 ]
+resolver = "2"
