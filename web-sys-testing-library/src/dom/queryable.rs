@@ -1,6 +1,7 @@
 use crate::dom::element::Element;
 use crate::dom::node_list::NodeList;
-use dom_testing_library::{CSSSelector, Queryable};
+use dom_testing_library::dom::css_selector::CSSSelector;
+use dom_testing_library::dom::queryable::Queryable;
 use wasm_bindgen::JsCast;
 
 pub struct Document(web_sys::Document);
@@ -34,7 +35,6 @@ impl From<web_sys::Document> for Document {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use dom_testing_library::CSSSelector;
     use wasm_bindgen_test::*;
 
     wasm_bindgen_test_configure!(run_in_browser);

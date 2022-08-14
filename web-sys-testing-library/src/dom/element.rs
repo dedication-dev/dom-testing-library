@@ -1,8 +1,8 @@
-use dom_testing_library::{Attribute, AttributeIdentifier, Element as TLNode};
+use dom_testing_library::dom::element::{Attribute, AttributeIdentifier, Element as TLElement};
 
 pub struct Element(web_sys::Element);
 
-impl TLNode for Element {
+impl TLElement for Element {
     fn attribute(&self, identifier: &AttributeIdentifier) -> Option<Attribute> {
         self.0.get_attribute(identifier.as_ref()).map(|value| {
             if value.is_empty() {
