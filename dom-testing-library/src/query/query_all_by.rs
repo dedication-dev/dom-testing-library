@@ -25,7 +25,7 @@ mod tests {
             test_helper::{AttributeMap, FakeElement},
             Attribute,
         };
-        use crate::dom::queryable::MockQueryable;
+        use crate::dom::queryable::test_helper::non_filtering_queryable;
         use crate::query::matcher::test_helper::{matching_matcher, AttributeMatcher};
 
         #[test]
@@ -64,12 +64,6 @@ mod tests {
             let matching_elements = queryable.query_all_by(&matcher);
 
             assert_eq!(matching_elements, vec![element2]);
-        }
-
-        fn non_filtering_queryable(elements: &[FakeElement]) -> MockQueryable<FakeElement> {
-            let mut queryable = MockQueryable::new();
-            queryable.expect_query_all().return_const(elements.to_vec());
-            queryable
         }
     }
 }
