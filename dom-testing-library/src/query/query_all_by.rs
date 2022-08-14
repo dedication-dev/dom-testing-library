@@ -21,10 +21,9 @@ mod tests {
 
     mod query_all_by {
         use super::*;
-        use crate::dom::css_selector::CSSSelector;
         use crate::dom::element::{Attribute, AttributeIdentifier, Element};
         use crate::dom::queryable::MockQueryable;
-        use crate::query::matcher::MockMatcher;
+        use crate::query::matcher::test_helper::{matching_matcher, AttributeMatcher};
         use std::collections::HashMap;
 
         #[test]
@@ -96,36 +95,6 @@ mod tests {
         impl Element for FakeElement {
             fn attribute(&self, identifier: &AttributeIdentifier) -> Option<Attribute> {
                 self.attributes.0.get(identifier).cloned()
-            }
-        }
-
-        fn matching_matcher() -> MockMatcher {
-            let mut matcher = MockMatcher::new();
-            matcher.expect_css_selectors().return_const(vec![]);
-            matcher.expect_matches().return_const(true);
-            matcher
-        }
-
-        struct AttributeMatcher {
-            attribute: Attribute,
-        }
-
-        impl AttributeMatcher {
-            fn new(attribute: Attribute) -> Self {
-                Self { attribute }
-            }
-        }
-
-        impl Matcher for AttributeMatcher {
-            fn css_selectors(&self) -> Vec<CSSSelector> {
-                vec![]
-            }
-
-            fn matches(&self, element: &dyn Element) -> bool {
-                match element.attribute(self.attribute.identifier()) {
-                    None => false,
-                    Some(attribute) => self.attribute == attribute,
-                }
             }
         }
     }
