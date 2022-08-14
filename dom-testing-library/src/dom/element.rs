@@ -55,3 +55,37 @@ impl<T: Into<String>> From<T> for AttributeValue {
         AttributeValue(string_like.into())
     }
 }
+
+#[cfg(test)]
+pub mod test_helper {
+    use super::*;
+    use std::collections::HashMap;
+
+    #[derive(Clone, Debug, Default, PartialEq)]
+    pub struct AttributeMap(HashMap<AttributeIdentifier, Attribute>);
+
+    impl From<Vec<Attribute>> for AttributeMap {
+        fn from(attributes: Vec<Attribute>) -> Self {
+            Self(HashMap::from_iter(attributes.into_iter().map(
+                |attribute| (attribute.identifier().clone(), attribute),
+            )))
+        }
+    }
+
+    #[derive(Clone, Debug, Default, PartialEq)]
+    pub struct FakeElement {
+        attributes: AttributeMap,
+    }
+
+    impl FakeElement {
+        pub fn new(attributes: AttributeMap) -> Self {
+            Self { attributes }
+        }
+    }
+
+    impl Element for FakeElement {
+        fn attribute(&self, identifier: &AttributeIdentifier) -> Option<Attribute> {
+            self.attributes.0.get(identifier).cloned()
+        }
+    }
+}

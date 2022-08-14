@@ -21,10 +21,12 @@ mod tests {
 
     mod query_all_by {
         use super::*;
-        use crate::dom::element::{Attribute, AttributeIdentifier, Element};
+        use crate::dom::element::{
+            test_helper::{AttributeMap, FakeElement},
+            Attribute,
+        };
         use crate::dom::queryable::MockQueryable;
         use crate::query::matcher::test_helper::{matching_matcher, AttributeMatcher};
-        use std::collections::HashMap;
 
         #[test]
         fn with_query_all_without_elements_returns_no_elements() {
@@ -68,34 +70,6 @@ mod tests {
             let mut queryable = MockQueryable::new();
             queryable.expect_query_all().return_const(elements.to_vec());
             queryable
-        }
-
-        #[derive(Clone, Debug, Default, PartialEq)]
-        struct AttributeMap(HashMap<AttributeIdentifier, Attribute>);
-
-        impl From<Vec<Attribute>> for AttributeMap {
-            fn from(attributes: Vec<Attribute>) -> Self {
-                Self(HashMap::from_iter(attributes.into_iter().map(
-                    |attribute| (attribute.identifier().clone(), attribute),
-                )))
-            }
-        }
-
-        #[derive(Clone, Debug, Default, PartialEq)]
-        struct FakeElement {
-            attributes: AttributeMap,
-        }
-
-        impl FakeElement {
-            fn new(attributes: AttributeMap) -> Self {
-                Self { attributes }
-            }
-        }
-
-        impl Element for FakeElement {
-            fn attribute(&self, identifier: &AttributeIdentifier) -> Option<Attribute> {
-                self.attributes.0.get(identifier).cloned()
-            }
         }
     }
 }
