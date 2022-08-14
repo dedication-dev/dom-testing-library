@@ -1,4 +1,4 @@
-use crate::dom::element::{AttributeIdentifier, AttributeValue};
+use crate::dom::attribute::{AttributeIdentifier, AttributeValue};
 
 #[derive(Clone, Debug, PartialEq)]
 pub enum CSSSelector {

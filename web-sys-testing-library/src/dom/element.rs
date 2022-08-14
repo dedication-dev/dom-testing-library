@@ -1,4 +1,5 @@
-use dom_testing_library::dom::element::{Attribute, AttributeIdentifier, Element as TLElement};
+use dom_testing_library::dom::attribute::{Attribute, AttributeIdentifier};
+use dom_testing_library::dom::element::Element as TLElement;
 
 pub struct Element(web_sys::Element);
 

@@ -11,7 +11,7 @@ pub trait Matcher {
 #[cfg(test)]
 pub mod test_helper {
     use super::*;
-    use crate::dom::element::Attribute;
+    use crate::dom::attribute::Attribute;
 
     pub fn matching_matcher() -> MockMatcher {
         let mut matcher = MockMatcher::new();

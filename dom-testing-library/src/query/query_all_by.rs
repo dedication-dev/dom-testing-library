@@ -21,10 +21,8 @@ mod tests {
 
     mod query_all_by {
         use super::*;
-        use crate::dom::element::{
-            test_helper::{AttributeMap, FakeElement},
-            Attribute,
-        };
+        use crate::dom::attribute::{test_helper::AttributeMap, Attribute};
+        use crate::dom::element::test_helper::FakeElement;
         use crate::dom::queryable::test_helper::non_filtering_queryable;
         use crate::query::matcher::test_helper::{matching_matcher, AttributeMatcher};
 
