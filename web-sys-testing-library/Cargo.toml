@@ -2,6 +2,15 @@
 name = "web-sys-testing-library"
 version = "0.1.0"
 edition = "2021"
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/dedication-dev/dom-testing-library"
+homepage = "https://github.com/dedication-dev/dom-testing-library/tree/main/web-sys-testing-library"
+description = """
+Work in progress DOM Testing Library to web-sys adapter.
+"""
+categories = ["development-tools::testing", "wasm"]
+keywords = ["testing", "web", "dom"]
 
 [dependencies]
 dom-testing-library = { version = "0.1.0", path = "../dom-testing-library" }

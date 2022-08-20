@@ -2,6 +2,15 @@
 name = "dom-testing-library"
 version = "0.1.0"
 edition = "2021"
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/dedication-dev/dom-testing-library"
+homepage = "https://github.com/dedication-dev/dom-testing-library/tree/main/dom-testing-library"
+description = """
+Implementation agnostic web testing primitives.
+"""
+categories = ["development-tools::testing"]
+keywords = ["testing", "web", "dom"]
 
 [dependencies]
 
