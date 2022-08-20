@@ -1,3 +1,5 @@
+use Attribute::{Value, Valueless};
+
 #[allow(dead_code)]
 #[derive(Clone, Debug, PartialEq)]
 pub enum Attribute {
@@ -12,18 +14,28 @@ pub enum Attribute {
 
 #[allow(dead_code)]
 impl Attribute {
-    pub fn valueless(identifier: AttributeIdentifier) -> Self {
-        Self::Valueless { identifier }
+    pub fn valueless<TAttributeIdentifier: Into<AttributeIdentifier>>(
+        identifier: TAttributeIdentifier,
+    ) -> Self {
+        Valueless {
+            identifier: identifier.into(),
+        }
     }
 
-    pub fn value(identifier: AttributeIdentifier, value: AttributeValue) -> Self {
-        Self::Value { identifier, value }
+    pub fn value<TId: Into<AttributeIdentifier>, TVal: Into<AttributeValue>>(
+        identifier: TId,
+        value: TVal,
+    ) -> Self {
+        Value {
+            identifier: identifier.into(),
+            value: value.into(),
+        }
     }
 
     pub fn identifier(&self) -> &AttributeIdentifier {
         match self {
-            Attribute::Valueless { identifier } => identifier,
-            Attribute::Value { identifier, .. } => identifier,
+            Valueless { identifier } => identifier,
+            Value { identifier, .. } => identifier,
         }
     }
 }

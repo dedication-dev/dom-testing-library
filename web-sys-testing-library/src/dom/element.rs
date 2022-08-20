@@ -9,7 +9,7 @@ impl TLElement for Element {
             if value.is_empty() {
                 Attribute::valueless(identifier.clone())
             } else {
-                Attribute::value(identifier.clone(), value.into())
+                Attribute::value(identifier.clone(), value)
             }
         })
     }
@@ -59,10 +59,7 @@ mod tests {
 
             let attribute = element.attribute(&"id".into());
 
-            assert_eq!(
-                attribute,
-                Some(Attribute::value("id".into(), "element".into()))
-            );
+            assert_eq!(attribute, Some(Attribute::value("id", "element")));
         }
 
         #[wasm_bindgen_test]
@@ -71,7 +68,7 @@ mod tests {
 
             let attribute = element.attribute(&"disabled".into());
 
-            assert_eq!(attribute, Some(Attribute::valueless("disabled".into())));
+            assert_eq!(attribute, Some(Attribute::valueless("disabled")));
         }
 
         fn get_element(body: &str, element_id: &str) -> Element {
