@@ -2,13 +2,13 @@ use crate::dom::{Element, Queryable};
 use crate::query::matcher::Matcher;
 
 pub trait QueryAllBy<TElement: Element> {
-    fn query_all_by<TMatcher: Matcher>(&self, matcher: &TMatcher) -> Vec<TElement>;
+    fn query_all_by(&self, matcher: &impl Matcher) -> Vec<TElement>;
 }
 
 impl<TElement: Element, TQueryable: Queryable<Element = TElement>> QueryAllBy<TElement>
     for TQueryable
 {
-    fn query_all_by<TMatcher: Matcher>(&self, matcher: &TMatcher) -> Vec<TElement> {
+    fn query_all_by(&self, matcher: &impl Matcher) -> Vec<TElement> {
         self.query_all(matcher.css_selectors())
             .into_iter()
             .filter(|it| matcher.matches(it))
