@@ -1,5 +1,4 @@
-use crate::dom::CSSSelector;
-use crate::dom::Element;
+use crate::dom::{CSSSelector, Element};
 use crate::query::matcher::Matcher;
 
 pub struct RoleButton(());

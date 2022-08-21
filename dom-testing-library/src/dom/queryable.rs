@@ -1,5 +1,4 @@
-use crate::dom::css_selector::CSSSelector;
-use crate::dom::element::Element;
+use crate::dom::{CSSSelector, Element};
 
 #[cfg_attr(test, mockall::automock)]
 pub trait Queryable<TElement: Element> {
@@ -9,7 +8,7 @@ pub trait Queryable<TElement: Element> {
 #[cfg(test)]
 pub mod test_helper {
     use super::*;
-    use crate::dom::element::test_helper::FakeElement;
+    use crate::dom::test_helper::FakeElement;
 
     pub fn non_filtering_queryable(elements: &[FakeElement]) -> MockQueryable<FakeElement> {
         let mut queryable = MockQueryable::new();

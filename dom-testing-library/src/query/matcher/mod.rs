@@ -1,5 +1,4 @@
-use crate::dom::CSSSelector;
-use crate::dom::Element;
+use crate::dom::{CSSSelector, Element};
 
 pub mod role;
 

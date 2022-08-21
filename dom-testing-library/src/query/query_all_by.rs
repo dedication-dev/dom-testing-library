@@ -1,5 +1,4 @@
-use crate::dom::queryable::Queryable;
-use crate::dom::Element;
+use crate::dom::{Element, Queryable};
 use crate::query::matcher::Matcher;
 
 pub trait QueryAllBy<TElement: Element> {
@@ -21,8 +20,7 @@ mod tests {
 
     mod query_all_by {
         use super::*;
-        use crate::dom::queryable::test_helper::non_filtering_queryable;
-        use crate::dom::test_helper::{AttributeMap, FakeElement};
+        use crate::dom::test_helper::{non_filtering_queryable, AttributeMap, FakeElement};
         use crate::dom::Attribute;
         use crate::query::matcher::test_helper::{matching_matcher, AttributeMatcher};
 

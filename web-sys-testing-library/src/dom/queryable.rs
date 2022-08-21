@@ -1,7 +1,6 @@
 use crate::dom::element::Element;
 use crate::dom::node_list::NodeList;
-use dom_testing_library::dom::queryable::Queryable;
-use dom_testing_library::dom::CSSSelector;
+use dom_testing_library::dom::{CSSSelector, Queryable};
 use wasm_bindgen::JsCast;
 
 pub struct Document(web_sys::Document);

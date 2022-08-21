@@ -1,4 +1,4 @@
-use crate::dom::attribute::{Attribute, AttributeIdentifier};
+use crate::dom::{Attribute, AttributeIdentifier};
 
 pub trait Element {
     fn attribute(&self, identifier: &AttributeIdentifier) -> Option<Attribute>;
@@ -7,7 +7,7 @@ pub trait Element {
 #[cfg(test)]
 pub mod test_helper {
     use super::*;
-    use crate::dom::attribute::test_helper::AttributeMap;
+    use crate::dom::test_helper::AttributeMap;
 
     #[derive(Clone, Debug, Default, PartialEq)]
     pub struct FakeElement {
