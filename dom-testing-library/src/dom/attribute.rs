@@ -1,6 +1,5 @@
 use Attribute::{Value, Valueless};
 
-#[allow(dead_code)]
 #[derive(Clone, Debug, PartialEq)]
 pub enum Attribute {
     Valueless {
@@ -12,7 +11,6 @@ pub enum Attribute {
     },
 }
 
-#[allow(dead_code)]
 impl Attribute {
     pub fn valueless<TAttributeIdentifier: Into<AttributeIdentifier>>(
         identifier: TAttributeIdentifier,
@@ -41,7 +39,7 @@ impl Attribute {
 }
 
 #[derive(Clone, Debug, Hash, PartialEq, Eq)]
-pub struct AttributeIdentifier(pub String);
+pub struct AttributeIdentifier(String);
 
 impl AsRef<String> for AttributeIdentifier {
     fn as_ref(&self) -> &String {
@@ -56,7 +54,13 @@ impl<T: Into<String>> From<T> for AttributeIdentifier {
 }
 
 #[derive(Clone, Debug, PartialEq)]
-pub struct AttributeValue(pub String);
+pub struct AttributeValue(String);
+
+impl AsRef<String> for AttributeValue {
+    fn as_ref(&self) -> &String {
+        &self.0
+    }
+}
 
 impl<T: Into<String>> From<T> for AttributeValue {
     fn from(string_like: T) -> Self {

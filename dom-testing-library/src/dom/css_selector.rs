@@ -36,9 +36,9 @@ impl CSSSelector {
 impl From<AttributeSelector> for String {
     fn from(attribute_selector: AttributeSelector) -> Self {
         match attribute_selector {
-            AttributeSelector::Valueless { identifier } => format!("[{}]", identifier.0),
+            AttributeSelector::Valueless { identifier } => format!("[{}]", identifier.as_ref()),
             AttributeSelector::Exact { identifier, value } => {
-                format!("[{}={}]", identifier.0, value.0)
+                format!("[{}={}]", identifier.as_ref(), value.as_ref())
             }
         }
     }

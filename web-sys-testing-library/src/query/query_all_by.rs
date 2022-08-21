@@ -9,8 +9,8 @@ mod tests {
         use super::*;
         use crate::dom::element::Element;
         use crate::dom::queryable::Document;
-        use dom_testing_library::dom::attribute::Attribute;
         use dom_testing_library::dom::element::Element as TlElement;
+        use dom_testing_library::dom::Attribute;
         use dom_testing_library::query::matcher::role;
         use dom_testing_library::query::query_all_by::QueryAllBy;
 
