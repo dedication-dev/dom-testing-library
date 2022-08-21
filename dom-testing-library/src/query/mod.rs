@@ -1,2 +1,4 @@
 pub mod matcher;
-pub mod query_all_by;
+mod query_all_by;
+
+pub use query_all_by::QueryAllBy;

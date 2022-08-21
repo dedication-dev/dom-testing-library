@@ -11,7 +11,7 @@ mod tests {
         use crate::dom::queryable::Document;
         use dom_testing_library::dom::{Attribute, Element as TlElement};
         use dom_testing_library::query::matcher::role;
-        use dom_testing_library::query::query_all_by::QueryAllBy;
+        use dom_testing_library::query::QueryAllBy as _;
 
         #[wasm_bindgen_test]
         fn without_elements_returns_no_elements() {
