@@ -1,7 +1,9 @@
-use crate::dom::{CSSSelector, Element};
+use crate::dom::CSSSelector;
 
-pub trait Queryable<TElement: Element> {
-    fn query_all(&self, selectors: Vec<CSSSelector>) -> Vec<TElement>;
+pub trait Queryable {
+    type Element;
+
+    fn query_all(&self, selectors: Vec<CSSSelector>) -> Vec<Self::Element>;
 }
 
 #[cfg(test)]
@@ -11,8 +13,10 @@ pub mod test_helper {
 
     pub struct NonFilteringQueryable(pub Vec<FakeElement>);
 
-    impl Queryable<FakeElement> for NonFilteringQueryable {
-        fn query_all(&self, _selectors: Vec<CSSSelector>) -> Vec<FakeElement> {
+    impl Queryable for NonFilteringQueryable {
+        type Element = FakeElement;
+
+        fn query_all(&self, _selectors: Vec<CSSSelector>) -> Vec<Self::Element> {
             self.0.to_vec()
         }
     }

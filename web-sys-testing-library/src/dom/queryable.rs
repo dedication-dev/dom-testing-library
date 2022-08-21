@@ -5,8 +5,10 @@ use wasm_bindgen::JsCast;
 
 pub struct Document(web_sys::Document);
 
-impl Queryable<Element> for Document {
-    fn query_all(&self, selectors: Vec<CSSSelector>) -> Vec<Element> {
+impl Queryable for Document {
+    type Element = Element;
+
+    fn query_all(&self, selectors: Vec<CSSSelector>) -> Vec<Self::Element> {
         let selectors = to_selectors_string(selectors);
         let elements: NodeList = self.0.query_selector_all(&selectors).unwrap().into();
 

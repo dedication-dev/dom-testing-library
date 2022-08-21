@@ -5,7 +5,9 @@ pub trait QueryAllBy<TElement: Element> {
     fn query_all_by<TMatcher: Matcher>(&self, matcher: &TMatcher) -> Vec<TElement>;
 }
 
-impl<TElement: Element, TQueryable: Queryable<TElement>> QueryAllBy<TElement> for TQueryable {
+impl<TElement: Element, TQueryable: Queryable<Element = TElement>> QueryAllBy<TElement>
+    for TQueryable
+{
     fn query_all_by<TMatcher: Matcher>(&self, matcher: &TMatcher) -> Vec<TElement> {
         self.query_all(matcher.css_selectors())
             .into_iter()
