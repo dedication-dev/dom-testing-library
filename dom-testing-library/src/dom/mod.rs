@@ -1,7 +1,14 @@
 mod attribute;
 mod css_selector;
-pub mod element;
+mod element;
 pub mod queryable;
 
-pub use attribute::*;
+pub use attribute::{Attribute, AttributeIdentifier, AttributeValue};
 pub use css_selector::*;
+pub use element::Element;
+
+#[cfg(test)]
+pub mod test_helper {
+    pub use super::attribute::test_helper::*;
+    pub use super::element::test_helper::*;
+}
