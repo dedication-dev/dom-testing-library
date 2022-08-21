@@ -2,7 +2,6 @@ use crate::dom::{CSSSelector, Element};
 
 pub mod role;
 
-#[cfg_attr(test, mockall::automock)]
 pub trait Matcher {
     fn css_selectors(&self) -> Vec<CSSSelector>;
 
@@ -14,11 +13,16 @@ pub mod test_helper {
     use super::*;
     use crate::dom::Attribute;
 
-    pub fn matching_matcher() -> MockMatcher {
-        let mut matcher = MockMatcher::new();
-        matcher.expect_css_selectors().return_const(vec![]);
-        matcher.expect_matches().return_const(true);
-        matcher
+    pub struct MatchingMatcher;
+
+    impl Matcher for MatchingMatcher {
+        fn css_selectors(&self) -> Vec<CSSSelector> {
+            vec![]
+        }
+
+        fn matches(&self, _element: &dyn Element) -> bool {
+            true
+        }
     }
 
     pub struct AttributeMatcher {

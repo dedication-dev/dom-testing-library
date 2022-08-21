@@ -11,8 +11,3 @@ Implementation agnostic web testing primitives.
 """
 categories = ["development-tools::testing"]
 keywords = ["testing", "web", "dom"]
-
-[dependencies]
-
-[dev-dependencies]
-mockall = "0.11.1"

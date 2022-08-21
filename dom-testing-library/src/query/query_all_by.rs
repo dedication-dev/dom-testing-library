@@ -20,16 +20,16 @@ mod tests {
 
     mod query_all_by {
         use super::*;
-        use crate::dom::test_helper::{non_filtering_queryable, AttributeMap, FakeElement};
+        use crate::dom::test_helper::{AttributeMap, FakeElement, NonFilteringQueryable};
         use crate::dom::Attribute;
-        use crate::query::matcher::test_helper::{matching_matcher, AttributeMatcher};
+        use crate::query::matcher::test_helper::{AttributeMatcher, MatchingMatcher};
 
         #[test]
         fn with_query_all_without_elements_returns_no_elements() {
             let elements = vec![];
-            let queryable = non_filtering_queryable(&elements);
+            let queryable = NonFilteringQueryable(elements.clone());
 
-            let matching_elements = queryable.query_all_by(&matching_matcher());
+            let matching_elements = queryable.query_all_by(&MatchingMatcher);
 
             assert_eq!(matching_elements, elements);
         }
@@ -37,9 +37,9 @@ mod tests {
         #[test]
         fn returns_matching_elements() {
             let elements = vec![FakeElement::default()];
-            let queryable = non_filtering_queryable(&elements);
+            let queryable = NonFilteringQueryable(elements.clone());
 
-            let matching_elements = queryable.query_all_by(&matching_matcher());
+            let matching_elements = queryable.query_all_by(&MatchingMatcher);
 
             assert_eq!(matching_elements, elements);
         }
@@ -54,7 +54,7 @@ mod tests {
                 identifier: "attr2".into(),
             };
             let element2 = FakeElement::new(AttributeMap::from(vec![matching_attribute.clone()]));
-            let queryable = non_filtering_queryable(&[element1, element2.clone()]);
+            let queryable = NonFilteringQueryable(vec![element1, element2.clone()]);
 
             let matcher = AttributeMatcher::new(matching_attribute);
             let matching_elements = queryable.query_all_by(&matcher);
