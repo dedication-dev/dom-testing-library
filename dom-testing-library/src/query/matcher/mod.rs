@@ -1,5 +1,5 @@
-use crate::dom::css_selector::CSSSelector;
 use crate::dom::element::Element;
+use crate::dom::CSSSelector;
 
 pub mod role;
 
