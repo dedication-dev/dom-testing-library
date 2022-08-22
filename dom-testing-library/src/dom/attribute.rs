@@ -38,8 +38,14 @@ impl Attribute {
     }
 }
 
-#[derive(Clone, Debug, Hash, PartialEq, Eq)]
+#[derive(Clone, Debug, Eq, Hash, PartialEq)]
 pub struct AttributeIdentifier(String);
+
+impl AttributeIdentifier {
+    pub fn into_inner(self) -> String {
+        self.0
+    }
+}
 
 impl AsRef<String> for AttributeIdentifier {
     fn as_ref(&self) -> &String {
@@ -55,6 +61,12 @@ impl<T: Into<String>> From<T> for AttributeIdentifier {
 
 #[derive(Clone, Debug, PartialEq)]
 pub struct AttributeValue(String);
+
+impl AttributeValue {
+    pub fn into_inner(self) -> String {
+        self.0
+    }
+}
 
 impl AsRef<String> for AttributeValue {
     fn as_ref(&self) -> &String {
