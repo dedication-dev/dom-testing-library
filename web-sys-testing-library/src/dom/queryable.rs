@@ -3,6 +3,7 @@ use crate::dom::node_list::NodeList;
 use dom_testing_library::dom::{CSSSelector, Queryable};
 use wasm_bindgen::JsCast;
 
+#[derive(Clone, Debug, PartialEq)]
 pub struct Document(web_sys::Document);
 
 impl Queryable for Document {

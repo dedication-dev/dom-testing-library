@@ -13,6 +13,7 @@ pub mod test_helper {
     use super::*;
     use crate::dom::Attribute;
 
+    #[derive(Clone, Debug)]
     pub struct MatchingMatcher;
 
     impl Matcher for MatchingMatcher {
@@ -25,6 +26,7 @@ pub mod test_helper {
         }
     }
 
+    #[derive(Clone, Debug, PartialEq)]
     pub struct AttributeMatcher {
         attribute: Attribute,
     }

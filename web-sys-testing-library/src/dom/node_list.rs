@@ -1,3 +1,4 @@
+#[derive(Clone, Debug, PartialEq)]
 pub struct NodeList {
     inner: web_sys::NodeList,
     index: u32,

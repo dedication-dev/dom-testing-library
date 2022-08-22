@@ -1,6 +1,7 @@
 use crate::dom::{CSSSelector, Element};
 use crate::query::matcher::Matcher;
 
+#[derive(Clone, Debug, PartialEq)]
 pub struct RoleButton(());
 
 impl Matcher for RoleButton {

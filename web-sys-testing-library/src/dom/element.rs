@@ -1,5 +1,6 @@
 use dom_testing_library::dom::{Attribute, AttributeIdentifier, Element as TLElement};
 
+#[derive(Clone, Debug, PartialEq)]
 pub struct Element(web_sys::Element);
 
 impl TLElement for Element {
