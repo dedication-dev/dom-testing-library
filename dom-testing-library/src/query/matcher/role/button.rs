@@ -1,8 +1,9 @@
 use crate::dom::{CSSSelector, Element};
 use crate::query::matcher::Matcher;
 
+#[non_exhaustive]
 #[derive(Clone, Debug, PartialEq)]
-pub struct RoleButton(());
+pub struct RoleButton;
 
 impl Matcher for RoleButton {
     fn css_selectors(&self) -> Vec<CSSSelector> {
@@ -15,5 +16,5 @@ impl Matcher for RoleButton {
 }
 
 pub fn button() -> RoleButton {
-    RoleButton(())
+    RoleButton
 }
