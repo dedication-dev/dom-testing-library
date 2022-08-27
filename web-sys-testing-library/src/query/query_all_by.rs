@@ -1,6 +1,6 @@
 use crate::dom::Document;
-use dom_testing_library::query::matcher::Matcher;
-use dom_testing_library::query::query_all_by;
+use dom_testing_library::query::Matcher;
+use dom_testing_library::query_all_by;
 
 pub trait QueryAllBy {
     fn query_all_by(&self, matcher: &impl Matcher) -> Vec<web_sys::Element>;
