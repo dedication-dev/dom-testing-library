@@ -49,7 +49,7 @@ pub fn into_web_sys_elements(elements: Vec<Element>) -> Vec<web_sys::Element> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::render;
+    use crate::render_html;
     use wasm_bindgen_test::*;
 
     wasm_bindgen_test_configure!(run_in_browser);
@@ -85,7 +85,7 @@ mod tests {
         }
 
         fn get_element(body: &str, element_id: &str) -> Element {
-            Element(render(body).get_element_by_id(element_id).unwrap())
+            Element(render_html(body).get_element_by_id(element_id).unwrap())
         }
     }
 }

@@ -16,7 +16,7 @@ impl QueryAllBy for web_sys::Document {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::render;
+    use crate::render_html;
     use wasm_bindgen_test::*;
 
     wasm_bindgen_test_configure!(run_in_browser);
@@ -27,7 +27,7 @@ mod tests {
 
         #[wasm_bindgen_test]
         fn without_elements_returns_no_elements() {
-            let document = render("");
+            let document = render_html("");
 
             let matching_elements = document.query_all_by(&role::button());
 
@@ -36,7 +36,7 @@ mod tests {
 
         #[wasm_bindgen_test]
         fn returns_matching_elements() {
-            let document = render(
+            let document = render_html(
                 r#"<div><button role="button">Ok</button><button role="button">Cancel</button></div>"#,
             );
 

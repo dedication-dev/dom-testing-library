@@ -44,7 +44,7 @@ impl<'a> From<&'a web_sys::Document> for Document<'a> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::render;
+    use crate::render_html;
     use wasm_bindgen_test::*;
 
     wasm_bindgen_test_configure!(run_in_browser);
@@ -71,7 +71,7 @@ mod tests {
         }
 
         fn query_all(body: &str, selectors: Vec<CSSSelector>) -> Vec<Element> {
-            Document::from(render(body)).query_all(selectors)
+            Document::from(render_html(body)).query_all(selectors)
         }
     }
 }

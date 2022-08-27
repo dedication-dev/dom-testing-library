@@ -3,4 +3,4 @@ mod query;
 mod render;
 
 pub use query::QueryAllBy;
-pub use render::render;
+pub use render::render_html;
