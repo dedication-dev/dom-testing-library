@@ -39,6 +39,13 @@ impl From<Element> for web_sys::Element {
     }
 }
 
+pub fn into_web_sys_elements(elements: Vec<Element>) -> Vec<web_sys::Element> {
+    elements
+        .into_iter()
+        .map(|element| element.into_inner())
+        .collect()
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

@@ -1,3 +1,4 @@
+use crate::dom::element::into_web_sys_elements;
 use crate::dom::Document;
 use dom_testing_library::query::Matcher;
 use dom_testing_library::query_all_by;
@@ -8,10 +9,7 @@ pub trait QueryAllBy {
 
 impl QueryAllBy for web_sys::Document {
     fn query_all_by(&self, matcher: &impl Matcher) -> Vec<web_sys::Element> {
-        query_all_by(&Document::from(self), matcher)
-            .into_iter()
-            .map(|element| element.into_inner())
-            .collect()
+        into_web_sys_elements(query_all_by(&Document::from(self), matcher))
     }
 }
 
