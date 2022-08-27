@@ -1,4 +1,4 @@
-use crate::dom::queryable::Document;
+use crate::dom::document::Document;
 use web_sys::{DomParser, SupportedType};
 
 pub fn render(html: &str) -> Document {

@@ -48,7 +48,7 @@ mod tests {
 
     wasm_bindgen_test_configure!(run_in_browser);
 
-    mod query_all_with_document {
+    mod query_all {
         use super::*;
 
         #[wasm_bindgen_test]
