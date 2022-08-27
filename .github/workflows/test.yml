@@ -18,5 +18,7 @@ jobs:
         run: cargo test
       - name: Install wasm-pack
         run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
-      - name: Run wasm tests
+      - name: Build web-sys-testing-library
+        run: wasm-pack build web-sys-testing-library
+      - name: Run web-sys-testing-library wasm tests
         run: wasm-pack test --chrome --headless web-sys-testing-library
