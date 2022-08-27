@@ -1,4 +1,4 @@
-use crate::dom::document::Document;
+use crate::dom::Document;
 use dom_testing_library::query::matcher::Matcher;
 use dom_testing_library::query::query_all_by;
 

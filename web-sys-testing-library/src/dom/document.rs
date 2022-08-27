@@ -1,5 +1,5 @@
-use crate::dom::element::Element;
-use crate::dom::node_list::NodeList;
+use crate::dom::Element;
+use crate::dom::NodeList;
 use dom_testing_library::dom::{CSSSelector, Queryable};
 use std::borrow::Cow;
 use wasm_bindgen::JsCast;

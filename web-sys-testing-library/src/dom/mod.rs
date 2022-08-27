@@ -1,3 +1,7 @@
+pub mod document;
 pub mod element;
 mod node_list;
-pub mod document;
+
+pub use document::Document;
+pub use element::Element;
+use node_list::NodeList;
