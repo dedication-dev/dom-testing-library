@@ -78,8 +78,7 @@ mod tests {
         }
 
         fn get_element(body: &str, element_id: &str) -> Element {
-            let document = render(body).into_inner();
-            Element(document.get_element_by_id(element_id).unwrap())
+            Element(render(body).get_element_by_id(element_id).unwrap())
         }
     }
 }

@@ -6,9 +6,9 @@ pub trait QueryAllBy {
     fn query_all_by(&self, matcher: &impl Matcher) -> Vec<web_sys::Element>;
 }
 
-impl QueryAllBy for Document {
+impl QueryAllBy for web_sys::Document {
     fn query_all_by(&self, matcher: &impl Matcher) -> Vec<web_sys::Element> {
-        query_all_by(self, matcher)
+        query_all_by(&Document::from(self), matcher)
             .into_iter()
             .map(|element| element.into_inner())
             .collect()

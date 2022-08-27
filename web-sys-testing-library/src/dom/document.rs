@@ -1,18 +1,13 @@
 use crate::dom::element::Element;
 use crate::dom::node_list::NodeList;
 use dom_testing_library::dom::{CSSSelector, Queryable};
+use std::borrow::Cow;
 use wasm_bindgen::JsCast;
 
 #[derive(Clone, Debug, PartialEq)]
-pub struct Document(web_sys::Document);
+pub struct Document<'a>(Cow<'a, web_sys::Document>);
 
-impl Document {
-    pub fn into_inner(self) -> web_sys::Document {
-        self.0
-    }
-}
-
-impl Queryable for Document {
+impl Queryable for Document<'_> {
     type Element = Element;
 
     fn query_all(&self, selectors: Vec<CSSSelector>) -> Vec<Self::Element> {
@@ -34,9 +29,15 @@ fn to_selectors_string(selectors: Vec<CSSSelector>) -> String {
         .join(" ")
 }
 
-impl From<web_sys::Document> for Document {
+impl From<web_sys::Document> for Document<'_> {
     fn from(document: web_sys::Document) -> Self {
-        Self(document)
+        Self(Cow::Owned(document))
+    }
+}
+
+impl<'a> From<&'a web_sys::Document> for Document<'a> {
+    fn from(document: &'a web_sys::Document) -> Self {
+        Self(Cow::Borrowed(document))
     }
 }
 
@@ -70,7 +71,7 @@ mod tests {
         }
 
         fn query_all(body: &str, selectors: Vec<CSSSelector>) -> Vec<Element> {
-            render(body).query_all(selectors)
+            Document::from(render(body)).query_all(selectors)
         }
     }
 }
