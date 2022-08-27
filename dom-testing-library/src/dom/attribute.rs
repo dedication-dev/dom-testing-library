@@ -1,3 +1,4 @@
+use std::fmt;
 use Attribute::{Value, Valueless};
 
 #[derive(Clone, Debug, PartialEq)]
@@ -38,12 +39,27 @@ impl Attribute {
     }
 }
 
+impl fmt::Display for Attribute {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            Valueless { identifier } => write!(f, "{}", identifier),
+            Value { identifier, value } => write!(f, "{}={}", identifier, value),
+        }
+    }
+}
+
 #[derive(Clone, Debug, Eq, Hash, PartialEq)]
 pub struct AttributeIdentifier(String);
 
 impl AttributeIdentifier {
     pub fn into_inner(self) -> String {
         self.0
+    }
+}
+
+impl fmt::Display for AttributeIdentifier {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "{}", self.0.clone())
     }
 }
 
@@ -65,6 +81,12 @@ pub struct AttributeValue(String);
 impl AttributeValue {
     pub fn into_inner(self) -> String {
         self.0
+    }
+}
+
+impl fmt::Display for AttributeValue {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "{}", self.0.clone())
     }
 }
 
