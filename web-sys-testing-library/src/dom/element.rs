@@ -3,6 +3,12 @@ use dom_testing_library::dom::{Attribute, AttributeIdentifier, Element as TLElem
 #[derive(Clone, Debug, PartialEq)]
 pub struct Element(web_sys::Element);
 
+impl Element {
+    pub fn into_inner(self) -> web_sys::Element {
+        self.0
+    }
+}
+
 impl TLElement for Element {
     fn attribute(&self, identifier: &AttributeIdentifier) -> Option<Attribute> {
         self.0.get_attribute(identifier.as_ref()).map(|value| {

@@ -1,15 +1,17 @@
 use crate::dom::document::Document;
-use crate::dom::element::Element;
 use dom_testing_library::query::matcher::Matcher;
 use dom_testing_library::query::query_all_by;
 
 pub trait QueryAllBy {
-    fn query_all_by(&self, matcher: &impl Matcher) -> Vec<Element>;
+    fn query_all_by(&self, matcher: &impl Matcher) -> Vec<web_sys::Element>;
 }
 
 impl QueryAllBy for Document {
-    fn query_all_by(&self, matcher: &impl Matcher) -> Vec<Element> {
+    fn query_all_by(&self, matcher: &impl Matcher) -> Vec<web_sys::Element> {
         query_all_by(self, matcher)
+            .into_iter()
+            .map(|element| element.into_inner())
+            .collect()
     }
 }
 
@@ -23,8 +25,6 @@ mod tests {
 
     mod query_all_by {
         use super::*;
-        use crate::dom::element::Element;
-        use dom_testing_library::dom::{Attribute, Element as TlElement};
         use dom_testing_library::query::matcher::role;
 
         #[wasm_bindgen_test]
@@ -48,11 +48,8 @@ mod tests {
             matching_elements.iter().for_each(assert_has_role_button);
         }
 
-        fn assert_has_role_button(element: &Element) {
-            assert_eq!(
-                element.attribute(&"role".into()),
-                Some(Attribute::value("role", "button"))
-            );
+        fn assert_has_role_button(element: &web_sys::Element) {
+            assert_eq!(element.get_attribute("role"), Some("button".to_string()));
         }
     }
 }
