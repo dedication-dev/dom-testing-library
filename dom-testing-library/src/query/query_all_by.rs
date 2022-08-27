@@ -1,24 +1,15 @@
 use crate::dom::{Element, Queryable};
 use crate::query::matcher::Matcher;
 
-pub trait QueryAllBy {
-    type Element;
-
-    fn query_all_by(&self, matcher: &impl Matcher) -> Vec<Self::Element>;
-}
-
-impl<TQueryable: Queryable> QueryAllBy for TQueryable
-where
-    TQueryable::Element: Element,
-{
-    type Element = TQueryable::Element;
-
-    fn query_all_by(&self, matcher: &impl Matcher) -> Vec<Self::Element> {
-        self.query_all(matcher.css_selectors())
-            .into_iter()
-            .filter(|it| matcher.matches(it))
-            .collect()
-    }
+pub fn query_all_by<TElement: Element>(
+    queryable: &impl Queryable<Element = TElement>,
+    matcher: &impl Matcher,
+) -> Vec<TElement> {
+    queryable
+        .query_all(matcher.css_selectors())
+        .into_iter()
+        .filter(|it| matcher.matches(it))
+        .collect()
 }
 
 #[cfg(test)]
@@ -36,7 +27,7 @@ mod tests {
             let elements = vec![];
             let queryable = NonFilteringQueryable(elements.clone());
 
-            let matching_elements = queryable.query_all_by(&MatchingMatcher);
+            let matching_elements = query_all_by(&queryable, &MatchingMatcher);
 
             assert_eq!(matching_elements, elements);
         }
@@ -46,7 +37,7 @@ mod tests {
             let elements = vec![FakeElement::default()];
             let queryable = NonFilteringQueryable(elements.clone());
 
-            let matching_elements = queryable.query_all_by(&MatchingMatcher);
+            let matching_elements = query_all_by(&queryable, &MatchingMatcher);
 
             assert_eq!(matching_elements, elements);
         }
@@ -64,7 +55,7 @@ mod tests {
             let queryable = NonFilteringQueryable(vec![element1, element2.clone()]);
 
             let matcher = AttributeMatcher::new(matching_attribute);
-            let matching_elements = queryable.query_all_by(&matcher);
+            let matching_elements = query_all_by(&queryable, &matcher);
 
             assert_eq!(matching_elements, vec![element2]);
         }

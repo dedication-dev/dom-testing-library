@@ -1,5 +1,21 @@
+use crate::dom::document::Document;
+use crate::dom::element::Element;
+use dom_testing_library::query::matcher::Matcher;
+use dom_testing_library::query::query_all_by;
+
+pub trait QueryAllBy {
+    fn query_all_by(&self, matcher: &impl Matcher) -> Vec<Element>;
+}
+
+impl QueryAllBy for Document {
+    fn query_all_by(&self, matcher: &impl Matcher) -> Vec<Element> {
+        query_all_by(self, matcher)
+    }
+}
+
 #[cfg(test)]
 mod tests {
+    use super::*;
     use crate::render;
     use wasm_bindgen_test::*;
 
@@ -10,7 +26,6 @@ mod tests {
         use crate::dom::element::Element;
         use dom_testing_library::dom::{Attribute, Element as TlElement};
         use dom_testing_library::query::matcher::role;
-        use dom_testing_library::query::QueryAllBy as _;
 
         #[wasm_bindgen_test]
         fn without_elements_returns_no_elements() {
