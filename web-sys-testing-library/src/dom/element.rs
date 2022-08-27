@@ -36,13 +36,13 @@ impl From<Element> for web_sys::Element {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::render;
     use wasm_bindgen_test::*;
 
     wasm_bindgen_test_configure!(run_in_browser);
 
     mod attribute {
         use super::*;
-        use crate::util::test::ParseDocument;
 
         #[wasm_bindgen_test]
         fn without_attribute_returns_none() {
@@ -72,7 +72,8 @@ mod tests {
         }
 
         fn get_element(body: &str, element_id: &str) -> Element {
-            Element(body.parse_document().get_element_by_id(element_id).unwrap())
+            let document = render(body).into_inner();
+            Element(document.get_element_by_id(element_id).unwrap())
         }
     }
 }

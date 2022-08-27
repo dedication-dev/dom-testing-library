@@ -6,6 +6,12 @@ use wasm_bindgen::JsCast;
 #[derive(Clone, Debug, PartialEq)]
 pub struct Document(web_sys::Document);
 
+impl Document {
+    pub fn into_inner(self) -> web_sys::Document {
+        self.0
+    }
+}
+
 impl Queryable for Document {
     type Element = Element;
 
@@ -37,13 +43,13 @@ impl From<web_sys::Document> for Document {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::render;
     use wasm_bindgen_test::*;
 
     wasm_bindgen_test_configure!(run_in_browser);
 
     mod query_all_with_document {
         use super::*;
-        use crate::util::test::ParseDocument;
 
         #[wasm_bindgen_test]
         fn returns_element_with_exact_attribute() {
@@ -64,7 +70,7 @@ mod tests {
         }
 
         fn query_all(body: &str, selectors: Vec<CSSSelector>) -> Vec<Element> {
-            Document::from(body.parse_document()).query_all(selectors)
+            render(body).query_all(selectors)
         }
     }
 }

@@ -1,3 +1,5 @@
 mod dom;
 mod query;
-mod util;
+mod render;
+
+pub use render::render;
