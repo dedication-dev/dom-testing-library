@@ -3,14 +3,13 @@ use crate::dom::VecElementExt as _;
 use dom_testing_library::query::Matcher;
 use dom_testing_library::query_all_by;
 
-/// Used to extend various [web_sys] types.
-pub trait QueryAllBy {
-    /// Get all [Element]s in self matching [Matcher].
+impl Document {
+    /// Get all [web_sys::Element]s in self matching [Matcher].
     ///
     /// # Examples
     /// ```no_run
     /// use wasm_bindgen_test::*;
-    /// use web_sys_testing_library::{render_html, QueryAllBy, matcher::role};
+    /// use web_sys_testing_library::{render_html, matcher::role};
     ///
     /// wasm_bindgen_test_configure!(run_in_browser);
     ///
@@ -21,18 +20,13 @@ pub trait QueryAllBy {
     ///     let _button_elements = document.query_all_by(&role::button());
     /// }
     /// ```
-    fn query_all_by(&self, matcher: &impl Matcher) -> Vec<web_sys::Element>;
-}
-
-impl QueryAllBy for web_sys::Document {
-    fn query_all_by(&self, matcher: &impl Matcher) -> Vec<web_sys::Element> {
-        query_all_by(&Document::from(self), matcher).into_web_sys_elements()
+    pub fn query_all_by(&self, matcher: &impl Matcher) -> Vec<web_sys::Element> {
+        query_all_by(self, matcher).into_web_sys_elements()
     }
 }
 
 #[cfg(test)]
 mod tests {
-    use super::*;
     use crate::render_html;
     use wasm_bindgen_test::*;
 

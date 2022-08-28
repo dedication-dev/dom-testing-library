@@ -1,6 +1,7 @@
+use crate::dom::Document;
 use web_sys::{DomParser, SupportedType};
 
-/// Turns html into a [web_sys::Document]
+/// Turns html into a [Document]
 ///
 /// # Panics
 ///
@@ -18,9 +19,11 @@ use web_sys::{DomParser, SupportedType};
 ///     let _document = render_html("<div>Hello world!</div>");
 /// }
 /// ```
-pub fn render_html(html: &str) -> web_sys::Document {
-    DomParser::new()
+pub fn render_html(html: &str) -> Document {
+    let web_sys_document = DomParser::new()
         .unwrap()
         .parse_from_string(html, SupportedType::TextHtml)
-        .unwrap()
+        .unwrap();
+
+    Document::from(web_sys_document)
 }
