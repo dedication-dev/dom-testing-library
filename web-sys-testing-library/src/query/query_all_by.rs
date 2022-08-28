@@ -2,7 +2,6 @@ use crate::dom::element::into_web_sys_elements;
 use crate::dom::Document;
 use dom_testing_library::query::Matcher;
 use dom_testing_library::query_all_by;
-use web_sys::Element;
 
 /// Used to extend various [web_sys] types.
 pub trait QueryAllBy {
@@ -22,11 +21,11 @@ pub trait QueryAllBy {
     ///     let _button_elements = document.query_all_by(&role::button());
     /// }
     /// ```
-    fn query_all_by(&self, matcher: &impl Matcher) -> Vec<Element>;
+    fn query_all_by(&self, matcher: &impl Matcher) -> Vec<web_sys::Element>;
 }
 
 impl QueryAllBy for web_sys::Document {
-    fn query_all_by(&self, matcher: &impl Matcher) -> Vec<Element> {
+    fn query_all_by(&self, matcher: &impl Matcher) -> Vec<web_sys::Element> {
         into_web_sys_elements(query_all_by(&Document::from(self), matcher))
     }
 }
@@ -64,7 +63,7 @@ mod tests {
             matching_elements.iter().for_each(assert_has_role_button);
         }
 
-        fn assert_has_role_button(element: &Element) {
+        fn assert_has_role_button(element: &web_sys::Element) {
             assert_eq!(element.get_attribute("role"), Some("button".to_string()));
         }
     }
