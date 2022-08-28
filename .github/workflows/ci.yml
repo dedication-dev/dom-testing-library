@@ -34,14 +34,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: Swatinem/rust-cache@v1
-      - name: Install cargo-hack
-        run: cargo install cargo-hack
       - name: Install Rust nightly
         uses: actions-rs/toolchain@v1
         with:
           toolchain: nightly
           override: true
+      - uses: Swatinem/rust-cache@v1
+      - name: Install cargo-hack
+        run: cargo install cargo-hack
       - name: "check --all-features -Z minimal-versions"
         run: |
           # Remove dev-dependencies from Cargo.toml to prevent the next `cargo update`
