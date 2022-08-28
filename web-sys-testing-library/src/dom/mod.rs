@@ -1,7 +1,7 @@
-pub mod document;
-pub mod element;
+mod document;
+mod element;
 mod node_list;
 
 pub use document::Document;
-pub use element::Element;
+pub use element::{Element, VecElementExt};
 use node_list::NodeList;

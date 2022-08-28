@@ -1,9 +1,11 @@
 use dom_testing_library::dom::{Attribute, AttributeIdentifier, Element as TLElement};
 
+/// Wraps [web_sys::Element].
 #[derive(Clone, Debug, PartialEq)]
 pub struct Element(web_sys::Element);
 
 impl Element {
+    /// Extracts the underlying [web_sys::Element].
     pub fn into_inner(self) -> web_sys::Element {
         self.0
     }
@@ -39,11 +41,18 @@ impl From<Element> for web_sys::Element {
     }
 }
 
-pub fn into_web_sys_elements(elements: Vec<Element>) -> Vec<web_sys::Element> {
-    elements
-        .into_iter()
-        .map(|element| element.into_inner())
-        .collect()
+/// Extension trait for [Vec<Element>].
+pub trait VecElementExt {
+    /// Turns [Self] into [Vec<web_sys::Element>].
+    fn into_web_sys_elements(self) -> Vec<web_sys::Element>;
+}
+
+impl VecElementExt for Vec<Element> {
+    fn into_web_sys_elements(self) -> Vec<web_sys::Element> {
+        self.into_iter()
+            .map(|element| element.into_inner())
+            .collect()
+    }
 }
 
 #[cfg(test)]
@@ -85,7 +94,12 @@ mod tests {
         }
 
         fn get_element(body: &str, element_id: &str) -> Element {
-            Element(render_html(body).get_element_by_id(element_id).unwrap())
+            Element(
+                render_html(body)
+                    .into_inner()
+                    .get_element_by_id(element_id)
+                    .unwrap(),
+            )
         }
     }
 }
