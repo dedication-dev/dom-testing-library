@@ -26,7 +26,7 @@ pub mod test_helper {
         }
     }
 
-    #[derive(Clone, Debug, PartialEq)]
+    #[derive(Clone, Debug, PartialEq, Eq)]
     pub struct AttributeMatcher {
         attribute: Attribute,
     }

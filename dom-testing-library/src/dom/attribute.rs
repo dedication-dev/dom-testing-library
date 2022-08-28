@@ -1,7 +1,7 @@
 use std::fmt;
 use Attribute::{Value, Valueless};
 
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub enum Attribute {
     Valueless {
         identifier: AttributeIdentifier,
@@ -75,7 +75,7 @@ impl<T: Into<String>> From<T> for AttributeIdentifier {
     }
 }
 
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub struct AttributeValue(String);
 
 impl AttributeValue {
@@ -107,7 +107,7 @@ pub mod test_helper {
     use super::*;
     use std::collections::HashMap;
 
-    #[derive(Clone, Debug, Default, PartialEq)]
+    #[derive(Clone, Debug, Default, PartialEq, Eq)]
     pub struct AttributeMap(pub HashMap<AttributeIdentifier, Attribute>);
 
     impl From<Vec<Attribute>> for AttributeMap {

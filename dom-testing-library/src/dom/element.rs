@@ -9,7 +9,7 @@ pub mod test_helper {
     use super::*;
     use crate::dom::test_helper::AttributeMap;
 
-    #[derive(Clone, Debug, Default, PartialEq)]
+    #[derive(Clone, Debug, Default, PartialEq, Eq)]
     pub struct FakeElement {
         attributes: AttributeMap,
     }

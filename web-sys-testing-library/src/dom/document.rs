@@ -4,7 +4,7 @@ use dom_testing_library::dom::{CSSSelector, Queryable};
 use wasm_bindgen::JsCast;
 
 /// Wraps [web_sys::Document].
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Document(web_sys::Document);
 
 impl Document {

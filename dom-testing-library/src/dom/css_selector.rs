@@ -1,6 +1,6 @@
 use crate::dom::{AttributeIdentifier, AttributeValue};
 
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub enum CSSSelector {
     ValuelessAttribute {
         identifier: AttributeIdentifier,

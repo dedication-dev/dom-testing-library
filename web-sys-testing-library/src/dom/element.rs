@@ -1,7 +1,7 @@
 use dom_testing_library::dom::{Attribute, AttributeIdentifier, Element as TLElement};
 
 /// Wraps [web_sys::Element].
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Element(web_sys::Element);
 
 impl Element {
