@@ -5,6 +5,7 @@ pub mod dom;
 mod query;
 mod render;
 
+pub use query::{GetAllByError, GetAllByResult};
 pub use render::render_html;
 
 /// Reexports [dom_testing_library::query::matcher]
