@@ -1,13 +1,13 @@
-use crate::dom::Document;
+use crate::dom::{Document, Element};
 use dom_testing_library::query::Matcher;
 use std::error::Error;
 use std::fmt;
 
 /// Used to extend various [web_sys] types.
 impl Document {
-    /// Get all [web_sys::Element]s in self matching [Matcher].
+    /// Get all [Element]s in self matching [Matcher].
     ///
-    /// Returns [GetAllByError::NoMatchingElement] when no [web_sys::Element] matches.
+    /// Returns [GetAllByError::NoMatchingElement] when no [Element] matches.
     ///
     /// # Examples
     /// ```no_run
@@ -35,7 +35,7 @@ impl Document {
 }
 
 /// Result returned from [Document::get_all_by].
-pub type GetAllByResult = Result<Vec<web_sys::Element>, GetAllByError>;
+pub type GetAllByResult = Result<Vec<Element>, GetAllByError>;
 
 /// Error type to represent [Document::get_all_by] errors.
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -87,8 +87,11 @@ mod tests {
             matching_elements.iter().for_each(assert_has_role_button);
         }
 
-        fn assert_has_role_button(element: &web_sys::Element) {
-            assert_eq!(element.get_attribute("role"), Some("button".to_string()));
+        fn assert_has_role_button(element: &Element) {
+            assert_eq!(
+                element.as_ref().get_attribute("role"),
+                Some("button".to_string())
+            );
         }
     }
 }

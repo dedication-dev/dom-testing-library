@@ -5,5 +5,5 @@ mod element;
 mod node_list;
 
 pub use document::Document;
-pub use element::{Element, VecElementExt};
+pub use element::Element;
 use node_list::NodeList;

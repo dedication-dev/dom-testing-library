@@ -1,10 +1,9 @@
-use crate::dom::Document;
-use crate::dom::VecElementExt as _;
+use crate::dom::{Document, Element};
 use dom_testing_library::query::Matcher;
 use dom_testing_library::query_all_by;
 
 impl Document {
-    /// Get all [web_sys::Element]s in self matching [Matcher].
+    /// Get all [Element]s in self matching [Matcher].
     ///
     /// # Examples
     /// ```no_run
@@ -20,13 +19,14 @@ impl Document {
     ///     let _button_elements = document.query_all_by(&role::button());
     /// }
     /// ```
-    pub fn query_all_by(&self, matcher: &impl Matcher) -> Vec<web_sys::Element> {
-        query_all_by(self, matcher).into_web_sys_elements()
+    pub fn query_all_by(&self, matcher: &impl Matcher) -> Vec<Element> {
+        query_all_by(self, matcher)
     }
 }
 
 #[cfg(test)]
 mod tests {
+    use super::*;
     use crate::render_html;
     use wasm_bindgen_test::*;
 
@@ -57,8 +57,11 @@ mod tests {
             matching_elements.iter().for_each(assert_has_role_button);
         }
 
-        fn assert_has_role_button(element: &web_sys::Element) {
-            assert_eq!(element.get_attribute("role"), Some("button".to_string()));
+        fn assert_has_role_button(element: &Element) {
+            assert_eq!(
+                element.as_ref().get_attribute("role"),
+                Some("button".to_string())
+            );
         }
     }
 }

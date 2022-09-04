@@ -41,20 +41,6 @@ impl From<Element> for web_sys::Element {
     }
 }
 
-/// Extension trait for [Vec<Element>].
-pub trait VecElementExt {
-    /// Turns [Self] into [Vec<web_sys::Element>].
-    fn into_web_sys_elements(self) -> Vec<web_sys::Element>;
-}
-
-impl VecElementExt for Vec<Element> {
-    fn into_web_sys_elements(self) -> Vec<web_sys::Element> {
-        self.into_iter()
-            .map(|element| element.into_inner())
-            .collect()
-    }
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
