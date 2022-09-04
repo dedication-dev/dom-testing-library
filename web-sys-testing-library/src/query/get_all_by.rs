@@ -1,10 +1,9 @@
-use crate::dom::{Document, Element};
+use crate::dom::Element;
 use dom_testing_library::query::Matcher;
 use std::error::Error;
 use std::fmt;
 
-/// Used to extend various [web_sys] types.
-impl Document {
+impl Element {
     /// Get all [Element]s in self matching [Matcher].
     ///
     /// Returns [GetAllByError::NoMatchingElement] when no [Element] matches.
@@ -18,9 +17,9 @@ impl Document {
     ///
     /// #[wasm_bindgen_test]
     /// fn test() {
-    ///     let document = render_html(r#"<div><button role="button">Ok</button></div>"#);
+    ///     let element = render_html(r#"<div><button role="button">Ok</button></div>"#);
     ///
-    ///     let _button_elements = document.get_all_by(&role::button()).unwrap();
+    ///     let _button_elements = element.get_all_by(&role::button()).unwrap();
     /// }
     /// ```
     pub fn get_all_by(&self, matcher: &impl Matcher) -> GetAllByResult {
@@ -34,10 +33,10 @@ impl Document {
     }
 }
 
-/// Result returned from [Document::get_all_by].
+/// Result returned from [Element::get_all_by].
 pub type GetAllByResult = Result<Vec<Element>, GetAllByError>;
 
-/// Error type to represent [Document::get_all_by] errors.
+/// Error type to represent [Element::get_all_by] errors.
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub enum GetAllByError {
     /// Returned when no matching [web_sys::Element] is found.
@@ -68,20 +67,20 @@ mod tests {
 
         #[wasm_bindgen_test]
         fn without_matching_elements_returns_error() {
-            let document = render_html("<div></div>");
+            let element = render_html("<div></div>");
 
-            let result = document.get_all_by(&role::button());
+            let result = element.get_all_by(&role::button());
 
             assert_eq!(result, Err(GetAllByError::NoMatchingElement));
         }
 
         #[wasm_bindgen_test]
         fn returns_matching_elements() {
-            let document = render_html(
+            let element = render_html(
                 r#"<div><button role="button">Ok</button><button role="button">Cancel</button></div>"#,
             );
 
-            let matching_elements = document.get_all_by(&role::button()).unwrap();
+            let matching_elements = element.get_all_by(&role::button()).unwrap();
 
             assert_eq!(matching_elements.len(), 2);
             matching_elements.iter().for_each(assert_has_role_button);

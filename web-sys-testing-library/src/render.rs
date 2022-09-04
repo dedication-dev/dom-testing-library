@@ -1,7 +1,7 @@
-use crate::dom::Document;
+use crate::dom::Element;
 use web_sys::{DomParser, SupportedType};
 
-/// Turns html into a [Document]
+/// Turns html into a [Element]
 ///
 /// # Panics
 ///
@@ -16,14 +16,24 @@ use web_sys::{DomParser, SupportedType};
 ///
 /// #[wasm_bindgen_test]
 /// fn test() {
-///     let _document = render_html("<div>Hello world!</div>");
+///     let _element = render_html("<div>Hello world!</div>");
 /// }
 /// ```
-pub fn render_html(html: &str) -> Document {
-    let web_sys_document = DomParser::new()
+pub fn render_html(html: &str) -> Element {
+    let web_sys_document: web_sys::Document = DomParser::new()
         .unwrap()
-        .parse_from_string(html, SupportedType::TextHtml)
+        .parse_from_string(
+            r#" <!DOCTYPE html>
+                <html>
+                    <body>
+                    </body>
+                </html>"#,
+            SupportedType::TextHtml,
+        )
         .unwrap();
 
-    Document::from(web_sys_document)
+    let container = web_sys_document.create_element("div").unwrap();
+    container.set_inner_html(html);
+
+    Element::from(container)
 }

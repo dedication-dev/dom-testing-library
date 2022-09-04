@@ -1,4 +1,8 @@
-use dom_testing_library::dom::{Attribute, AttributeIdentifier, Element as TLElement};
+use crate::dom::NodeList;
+use dom_testing_library::dom::{
+    Attribute, AttributeIdentifier, CSSSelector, Element as TLElement, Queryable,
+};
+use wasm_bindgen::JsCast;
 
 /// Wraps [web_sys::Element].
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -21,6 +25,28 @@ impl TLElement for Element {
             }
         })
     }
+}
+
+impl Queryable for Element {
+    type Element = Element;
+
+    fn query_all(&self, selectors: Vec<CSSSelector>) -> Vec<Self::Element> {
+        let selectors = to_selectors_string(selectors);
+        let elements: NodeList = self.0.query_selector_all(&selectors).unwrap().into();
+
+        elements
+            .into_iter()
+            .map(|node| node.dyn_into::<web_sys::Element>().unwrap().into())
+            .collect()
+    }
+}
+
+fn to_selectors_string(selectors: Vec<CSSSelector>) -> String {
+    selectors
+        .into_iter()
+        .map(|selector| selector.into())
+        .collect::<Vec<String>>()
+        .join(" ")
 }
 
 impl From<web_sys::Element> for Element {
@@ -54,7 +80,7 @@ mod tests {
 
         #[wasm_bindgen_test]
         fn without_attribute_returns_none() {
-            let element = get_element(r#"<button id="element"></button>"#, "element");
+            let element = get_element(r#"<button></button>"#);
 
             let attribute = element.attribute(&"role".into());
 
@@ -63,7 +89,7 @@ mod tests {
 
         #[wasm_bindgen_test]
         fn returns_attribute() {
-            let element = get_element(r#"<button id="element"></button>"#, "element");
+            let element = get_element(r#"<button id="element"></button>"#);
 
             let attribute = element.attribute(&"id".into());
 
@@ -72,20 +98,46 @@ mod tests {
 
         #[wasm_bindgen_test]
         fn with_valueless_attribute_returns_valueless_attribute() {
-            let element = get_element(r#"<button id="element" disabled></button>"#, "element");
+            let element = get_element(r#"<button disabled></button>"#);
 
             let attribute = element.attribute(&"disabled".into());
 
             assert_eq!(attribute, Some(Attribute::valueless("disabled")));
         }
 
-        fn get_element(body: &str, element_id: &str) -> Element {
+        fn get_element(body: &str) -> Element {
             Element(
                 render_html(body)
                     .into_inner()
-                    .get_element_by_id(element_id)
+                    .first_element_child()
                     .unwrap(),
             )
+        }
+    }
+
+    mod query_all {
+        use super::*;
+
+        #[wasm_bindgen_test]
+        fn returns_element_with_exact_attribute() {
+            let body = r#"
+                <div>
+                    <a role="button"></a>
+                </div>
+            "#;
+
+            let elements = query_all(
+                body,
+                vec![CSSSelector::exact_attribute("role".into(), "button".into())],
+            );
+
+            assert_eq!(elements.len(), 1);
+            let element: &web_sys::Element = elements.first().unwrap().as_ref();
+            assert_eq!(element.node_name(), "A");
+        }
+
+        fn query_all(body: &str, selectors: Vec<CSSSelector>) -> Vec<Element> {
+            render_html(body).query_all(selectors)
         }
     }
 }

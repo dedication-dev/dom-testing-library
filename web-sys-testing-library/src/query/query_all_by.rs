@@ -1,8 +1,8 @@
-use crate::dom::{Document, Element};
+use crate::dom::Element;
 use dom_testing_library::query::Matcher;
 use dom_testing_library::query_all_by;
 
-impl Document {
+impl Element {
     /// Get all [Element]s in self matching [Matcher].
     ///
     /// # Examples
@@ -14,9 +14,9 @@ impl Document {
     ///
     /// #[wasm_bindgen_test]
     /// fn test() {
-    ///     let document = render_html(r#"<div><button role="button">Ok</button></div>"#);
+    ///     let element = render_html(r#"<div><button role="button">Ok</button></div>"#);
     ///
-    ///     let _button_elements = document.query_all_by(&role::button());
+    ///     let _button_elements = element.query_all_by(&role::button());
     /// }
     /// ```
     pub fn query_all_by(&self, matcher: &impl Matcher) -> Vec<Element> {
@@ -38,20 +38,20 @@ mod tests {
 
         #[wasm_bindgen_test]
         fn without_elements_returns_no_elements() {
-            let document = render_html("");
+            let element = render_html("");
 
-            let matching_elements = document.query_all_by(&role::button());
+            let matching_elements = element.query_all_by(&role::button());
 
             assert!(matching_elements.is_empty());
         }
 
         #[wasm_bindgen_test]
         fn returns_matching_elements() {
-            let document = render_html(
+            let element = render_html(
                 r#"<div><button role="button">Ok</button><button role="button">Cancel</button></div>"#,
             );
 
-            let matching_elements = document.query_all_by(&role::button());
+            let matching_elements = element.query_all_by(&role::button());
 
             assert_eq!(matching_elements.len(), 2);
             matching_elements.iter().for_each(assert_has_role_button);
